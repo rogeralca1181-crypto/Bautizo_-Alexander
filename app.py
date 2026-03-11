@@ -60,3 +60,45 @@ app.run(host="0.0.0.0", port=10000)
 import os
 port = int(os.environ.get("PORT",10000))
 app.run(host="0.0.0.0", port=port)
+
+@app.route("/admin")
+def admin():
+
+    data = pd.read_csv("invitados.csv")
+    data.columns = data.columns.str.strip().str.lower()
+
+    confirmados = data[data["confirmado"] == "si"]
+    no_asisten = data[data["confirmado"] == "no"]
+    pendientes = data[data["confirmado"] == "pendiente"]
+
+    html = f"""
+    <h1>Panel de Confirmaciones</h1>
+
+    <h2>Resumen</h2>
+    <p>Confirmados: {len(confirmados)}</p>
+    <p>No asistirán: {len(no_asisten)}</p>
+    <p>Pendientes: {len(pendientes)}</p>
+
+    <h2>Lista completa</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Mesa</th>
+            <th>Confirmación</th>
+        </tr>
+    """
+
+    for _, row in data.iterrows():
+        html += f"""
+        <tr>
+            <td>{row['id']}</td>
+            <td>{row['nombre']}</td>
+            <td>{row['mesa']}</td>
+            <td>{row['confirmado']}</td>
+        </tr>
+        """
+
+    html += "</table>"
+
+    return html
