@@ -98,6 +98,22 @@ def admin():
             <td>{row['confirmado']}</td>
         </tr>
         """
+        @app.route("/confirmar")
+def confirmar():
+
+    guest_id = int(request.args.get("id"))
+    respuesta = request.args.get("r")
+
+    data = pd.read_csv("invitados.csv")
+
+    if respuesta == "si":
+        data.loc[data["id"] == guest_id, "confirmado"] = "si"
+    else:
+        data.loc[data["id"] == guest_id, "confirmado"] = "no"
+
+    data.to_csv("invitados.csv", index=False)
+
+    return "<h1>Gracias por confirmar</h1>"
 
     html += "</table>"
 
