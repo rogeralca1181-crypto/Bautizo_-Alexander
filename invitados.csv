@@ -1,8 +1,9 @@
 ﻿id,nombre,mesa,confirmado
-1,Herlinda Carrillo Vital,
-2,Alejandro Granados Moncivaiz,
-3,Pablo Rogelio Alanis Malagón,
-4,Pamela Alanis Carrillo,
+1,Herlinda Carrillo Vital,1,pendiente
+2,Alejandro Granados Moncivaiz,1,pendiente
+3,Pablo Rogelio Alanis Malagón,1,pendiente
+4,Pamela Alanis Carrillo,1,pendiente
+
 
 
 
