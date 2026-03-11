@@ -32,28 +32,18 @@ def rsvp():
 def confirmar():
 
     guest_id = int(request.args.get("id"))
-    resp = request.args.get("resp")
+    respuesta = request.args.get("r")
 
-    guest = data[data["id"] == guest_id].iloc[0]
+    data = pd.read_csv("invitados.csv")
 
-    if resp == "si":
-
-        return f"""
-        <h1>Gracias por confirmar 🎉</h1>
-
-        <p>Dirección del evento:</p>
-        <p>Salón Magnolia</p>
-
-        <p>Tu mesa:</p>
-        <h2>Mesa {guest["mesa"]}</h2>
-        """
-
+    if respuesta == "si":
+        data.loc[data["id"] == guest_id, "confirmado"] = "si"
     else:
+        data.loc[data["id"] == guest_id, "confirmado"] = "no"
 
-        return """
-        <h1>Gracias por avisarnos</h1>
-        <p>Esperamos verte pronto.</p>
-        """
+    data.to_csv("invitados.csv", index=False)
+
+    return "<h1>Gracias por confirmar</h1>"
 
 app.run(host="0.0.0.0", port=10000)
 
@@ -99,22 +89,4 @@ def admin():
         </tr>
         """
         @app.route("/confirmar")
-def confirmar():
 
-    guest_id = int(request.args.get("id"))
-    respuesta = request.args.get("r")
-
-    data = pd.read_csv("invitados.csv")
-
-    if respuesta == "si":
-        data.loc[data["id"] == guest_id, "confirmado"] = "si"
-    else:
-        data.loc[data["id"] == guest_id, "confirmado"] = "no"
-
-    data.to_csv("invitados.csv", index=False)
-
-    return "<h1>Gracias por confirmar</h1>"
-
-    html += "</table>"
-
-    return html
